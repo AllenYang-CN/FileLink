@@ -1,0 +1,35 @@
+### 测试文件上传接口（基础版）
+POST http://localhost:3390/upload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="test.txt"
+Content-Type: text/plain
+
+# 这里是文件内容（文本文件示例）
+测试文件上传的内容
+123456
+abcdef
+
+--WebAppBoundary--
+
+### 测试文件上传接口（二进制文件示例，如图片）
+POST http://localhost:3390/upload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="test.png"
+Content-Type: image/png
+
+< ./test.png  # 本地文件路径（相对当前http文件的位置）
+--WebAppBoundary--
+
+### 测试异常场景：无文件上传
+POST http://localhost:3390/upload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename=""
+Content-Type: application/octet-stream
+
+--WebAppBoundary--
