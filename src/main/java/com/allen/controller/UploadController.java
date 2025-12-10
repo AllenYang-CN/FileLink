@@ -38,18 +38,19 @@ public class UploadController {
         try {
             log.info("upload file: {}", file.getOriginalFilename());
             // 检查目录是否存在，不存在则创建
-            FileUtil.mkdirsSafely(resource.getFile(), 3, 300);
+            File basePath = FileUtil.file(resource.getFile(), DateUtil.format(DateUtil.date(), DatePattern.PURE_DATE_PATTERN));
+            FileUtil.mkdirsSafely(basePath, 3, 300);
             File localFile;
             // 如果文件名不为空，则使用文件名，否则使用UUID生成文件名
             if (StrUtil.isNotBlank(file.getOriginalFilename())) {
-                localFile = FileUtil.file(resource.getFile().getAbsolutePath(), file.getOriginalFilename());
+                localFile = FileUtil.file(basePath.getAbsolutePath(), file.getOriginalFilename());
             } else {
                 String fileName = DateUtil.format(DateUtil.date(), DatePattern.PURE_DATETIME_MS_PATTERN) + CharUtil.UNDERLINE + StrUtil.uuid();
-                localFile = FileUtil.file(resource.getFile().getAbsolutePath(), fileName);
+                localFile = FileUtil.file(basePath.getAbsolutePath(), fileName);
             }
             // 检查文件是否存在，存在则删除
             file.transferTo(localFile);
-            return urlPrefix + file.getOriginalFilename();
+            return urlPrefix + CharUtil.SLASH + DateUtil.format(DateUtil.date(), DatePattern.PURE_DATE_PATTERN) + CharUtil.SLASH + file.getOriginalFilename();
         } catch (Exception e) {
             log.info("upload file error", e);
             return e.getMessage();
