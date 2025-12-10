@@ -1,4 +1,4 @@
-package com.allen.contorller;
+package com.allen.controller;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
