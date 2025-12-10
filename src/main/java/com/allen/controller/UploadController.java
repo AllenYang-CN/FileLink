@@ -50,7 +50,7 @@ public class UploadController {
             }
             // 检查文件是否存在，存在则删除
             file.transferTo(localFile);
-            return urlPrefix + CharUtil.SLASH + DateUtil.format(DateUtil.date(), DatePattern.PURE_DATE_PATTERN) + CharUtil.SLASH + file.getOriginalFilename();
+            return urlPrefix + DateUtil.format(DateUtil.date(), DatePattern.PURE_DATE_PATTERN) + CharUtil.SLASH + file.getOriginalFilename();
         } catch (Exception e) {
             log.info("upload file error", e);
             return e.getMessage();
